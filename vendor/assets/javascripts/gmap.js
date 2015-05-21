@@ -49,8 +49,6 @@ GmapAutoComplete = function() {
     if (place.name) {
       var location_name = place.name;
     }
-    var formatted_address = place.formatted_address;
-    var formatted_phone_number = place.formatted_phone_number;
 
     if (zipcode){
       document.getElementById("origin_address_zip_code").value = zipcode;
@@ -107,8 +105,6 @@ GmapAutoComplete = function() {
       if (place.name) {
         var location_name = place.name;
       }
-      var formatted_address = place.formatted_address;
-      var formatted_phone_number = place.formatted_phone_number;
 
       if (zipcode){
         document.getElementById("destination_address_zip_code").value = zipcode;
