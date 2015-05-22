@@ -24,19 +24,19 @@
      </div>
      <div class="form-group">
        <div class='input-group date'>
-          <%= text_field_tag 'parcel[pickup_by]', @parcel ? @parcel.pickup_by : "", value: "18/5/2015", :id => "datetimepicker1" %>
+          <%= text_field_tag 'parcel[pickup_by]', @parcel ? @parcel.pickup_by : "", :id => "datetimepicker1", placeholder: "Pickup by" %>
        </div>
     </div>
     <div class="form-group">
       <div class='input-group date'>
-          <%= text_field_tag 'parcel[deliver_by]', @parcel ? @parcel.deliver_by: "", value: "25/5/2015", :id => 'datetimepicker2' %>
+          <%= text_field_tag 'parcel[deliver_by]', @parcel ? @parcel.deliver_by : "", :id => 'datetimepicker2', placeholder: "Delivery by" %>
        </div>
     </div>
     <div class="form-group">
-      <%= text_field_tag 'parcel[volume]', @parcel ? @parcel.volume : "", value: "13" %>
+      <%= text_field_tag 'parcel[volume]', @parcel ? @parcel.volume : "", placeholder: "Volume" %>
     </div>
     <div class="form-group">
-     <%= text_field_tag 'parcel[weight]', @parcel ? @parcel.weight : "", value: "90" %>
+     <%= text_field_tag 'parcel[weight]', @parcel ? @parcel.weight : "", placeholder: "Weight" %>
     </div>
     <div class="form-group">
      <%= text_field_tag 'parcel[delivery_notes]', @parcel ? @parcel.delivery_notes : "", placeholder: "Delivery Notes" %>
