@@ -42,4 +42,5 @@ $(document).ready(function () {
     $('div.setup-panel div a.btn-primary').trigger('click');
 
     var originAddressField = GmapAutoComplete("origin_address");
+    var destinationAddressField = GmapAutoComplete("destination_address");
 });
