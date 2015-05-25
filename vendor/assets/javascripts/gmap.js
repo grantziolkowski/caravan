@@ -1,21 +1,27 @@
 GmapAutoComplete = function(address) {
+  function getFieldIds() {
+    addressIds = {
+      field: address + "_address_string",
+      latitude: address + "_latitude",
+      longitude: address + "_longitude",
+      zipCode: address + "_zip_code",
+      city: address + "_city",
+      state: address + "_state",
+      streetAddress: address + "_street_address"
+    }
+    return addressIds
+  }
   // Autocomplete
-  var addressInput = document.getElementById(address + "_address_string");
+  var addressInput = document.getElementById(getFieldIds().field);
   var addressField = new google.maps.places.Autocomplete(addressInput);
-  var latitudeId = address + "_latitude"
-  var longitudeId = address + "_longitude"
-  var zipCodeId = address + "_zip_code"
-  var cityId = address + "_city"
-  var stateId = address + "_state"
-  var streetAddressId = address + "_street_address"
   var place;
   var photos;
   // Autocomplete Listener
   google.maps.event.addListener(addressField, 'place_changed', function() {
     place = addressField.getPlace();
 
-    document.getElementById(latitudeId).value = place.geometry.location.lat();
-    document.getElementById(longitudeId).value = place.geometry.location.lng();
+    document.getElementById(getFieldIds().latitude).value = place.geometry.location.lat();
+    document.getElementById(getFieldIds().longitude).value = place.geometry.location.lng();
 
     var address = '';
     if (place.address_components) {
@@ -55,16 +61,16 @@ GmapAutoComplete = function(address) {
     }
 
     if (zipcode){
-      document.getElementById(zipCodeId).value = zipcode;
+      document.getElementById(getFieldIds().zipCode).value = zipcode;
     }
     if (city) {
-      document.getElementById(cityId).value = city;
+      document.getElementById(getFieldIds().city).value = city;
     }
     if (state) {
-      document.getElementById(stateId).value = state;
+      document.getElementById(getFieldIds().state).value = state;
     }
     if (location_name) {
-      document.getElementById(streetAddressId).value = location_name;
+      document.getElementById(getFieldIds().streetAddress).value = location_name;
     }
   });
 }
