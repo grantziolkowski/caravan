@@ -1,17 +1,23 @@
 GmapAutoComplete = function(address) {
   // Autocomplete
- var originInput = document.getElementById(address + "_address_string");
+ var addressInput = document.getElementById(address + "_address_string");
  var destinationInput = document.getElementById('destination_address_address_string');
-  var originField = new google.maps.places.Autocomplete(originInput);
+  var addressField = new google.maps.places.Autocomplete(addressInput);
+  var latitudeId = address + "_latitude"
+  var longitudeId = address + "_longitude"
+  var zipCodeId = address + "_zip_code"
+  var cityId = address + "_city"
+  var stateId = address + "_state"
+  var streetAddressId = address + "_street_address"
   var destinationField = new google.maps.places.Autocomplete(destinationInput);
   var place;
   var photos;
   // Autocomplete Listener
-  google.maps.event.addListener(originField, 'place_changed', function() {
-    place = originField.getPlace();
+  google.maps.event.addListener(addressField, 'place_changed', function() {
+    place = addressField.getPlace();
 
-    document.getElementById(address + "_latitude").value = place.geometry.location.lat();
-    document.getElementById(address + "_longitude").value = place.geometry.location.lng();
+    document.getElementById(latitudeId).value = place.geometry.location.lat();
+    document.getElementById(longitudeId).value = place.geometry.location.lng();
 
     var address = '';
     if (place.address_components) {
@@ -51,16 +57,16 @@ GmapAutoComplete = function(address) {
     }
 
     if (zipcode){
-      document.getElementById(address + "_zip_code").value = zipcode;
+      document.getElementById(zipCodeId).value = zipcode;
     }
     if (city) {
-      document.getElementById(address + "_city").value = city;
+      document.getElementById(cityId).value = city;
     }
     if (state) {
-      document.getElementById(address + "_state").value = state;
+      document.getElementById(stateId).value = state;
     }
     if (location_name) {
-      document.getElementById(address + "_street_address").value = location_name;
+      document.getElementById(streetAddressId).value = location_name;
     }
   });
   google.maps.event.addListener(destinationField, 'place_changed', function() {
