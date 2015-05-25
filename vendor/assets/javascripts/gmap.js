@@ -1,17 +1,17 @@
-GmapAutoComplete = function() {
+GmapAutoComplete = function(address) {
   // Autocomplete
- var originInput = document.getElementById('origin_address_address_string');
+ var originInput = document.getElementById(address + "_address_string");
  var destinationInput = document.getElementById('destination_address_address_string');
-  var autocomplete1 = new google.maps.places.Autocomplete(originInput);
-  var autocomplete2 = new google.maps.places.Autocomplete(destinationInput);
+  var originField = new google.maps.places.Autocomplete(originInput);
+  var destinationField = new google.maps.places.Autocomplete(destinationInput);
   var place;
   var photos;
   // Autocomplete Listener
-  google.maps.event.addListener(autocomplete1, 'place_changed', function() {
-    place = autocomplete1.getPlace();
+  google.maps.event.addListener(originField, 'place_changed', function() {
+    place = originField.getPlace();
 
-    document.getElementById("origin_address_latitude").value = place.geometry.location.lat();
-    document.getElementById("origin_address_longitude").value = place.geometry.location.lng();
+    document.getElementById(address + "_latitude").value = place.geometry.location.lat();
+    document.getElementById(address + "_longitude").value = place.geometry.location.lng();
 
     var address = '';
     if (place.address_components) {
@@ -51,20 +51,20 @@ GmapAutoComplete = function() {
     }
 
     if (zipcode){
-      document.getElementById("origin_address_zip_code").value = zipcode;
+      document.getElementById(address + "_zip_code").value = zipcode;
     }
     if (city) {
-      document.getElementById("origin_address_city").value = city;
+      document.getElementById(address + "_city").value = city;
     }
     if (state) {
-      document.getElementById("origin_address_state").value = state;
+      document.getElementById(address + "_state").value = state;
     }
     if (location_name) {
-      document.getElementById("origin_address_street_address").value = location_name;
+      document.getElementById(address + "_street_address").value = location_name;
     }
   });
-  google.maps.event.addListener(autocomplete2, 'place_changed', function() {
-      place = autocomplete2.getPlace();
+  google.maps.event.addListener(destinationField, 'place_changed', function() {
+      place = destinationField.getPlace();
 
       document.getElementById("destination_address_latitude").value = place.geometry.location.lat();
       document.getElementById("destination_address_longitude").value = place.geometry.location.lng();
