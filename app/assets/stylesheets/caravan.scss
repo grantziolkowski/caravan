@@ -315,18 +315,18 @@ section {
 }
 
 
-.test input {
+.trip-search-form input {
   height: 25px;
   width: 250px;
   font-size: 10px;
 }
 
-.test form-group {
+.trip-search-form form-group {
   margin: 5px;
   height: 60px;
 }
 
-.test control-label {
+.trip-search-form control-label {
   font-size: 13px;
 }
 
@@ -348,10 +348,9 @@ section {
   display: none;
 }
 
-.test {
+.trip-search-form {
   background: #F0F0F0;
   margin: -15px;
-  // margin-right: 5px;
   padding: 10px;
   box-shadow: -9px 4px 35px -21px;
   border-radius: 8px;
@@ -378,7 +377,7 @@ section {
         text-transform: uppercase;
         text-align: center;
       }
-      :-ms-input-placeholder { 
+      :-ms-input-placeholder {
         color:$color-font-homepage;
         text-transform: uppercase;
         text-align: center;
