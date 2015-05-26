@@ -12,6 +12,13 @@ class ParcelsController < ApplicationController
   end
 
   def new
+    if params[:origin_address] && params[:destination_address] && params[:parcel]
+      origin = params[:origin_address]
+      @origin_address = Address.new_from_params(params[:origin_address])
+      @destination_address = Address.new_from_params(params[:destination_address])
+      @parcel = Parcel.new_from_params(params[:parcel])
+    end
+
     @url = parcels_path
     @submit_btn = "Create Parcel"
     @address = Address.new

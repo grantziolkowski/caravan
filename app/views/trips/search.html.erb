@@ -2,17 +2,16 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-3 sticky">
-      <%= form_tag trips_search_path, method: :get, class: "form-horizontal test" %>
+      <%= form_tag trips_search_path, method: :get, class: "form-horizontal trip-search-form" %>
         <legend>Parcel Details</legend>
         <div class="form-group">
           <div class="col-md-8">
             <% if @parcel_id %>
               <%= text_field_tag 'origin_address[address_string]', nil, class: "form-control input-md", placeholder: @origin_address_string %>
             <% else %>
-              <%= text_field_tag 'origin_address[address_string]', @origin_address_string, placeholder: "Origin Address", class: "form-control input-md" %>
+              <%= text_field_tag 'origin_address[address_string]', @origin_address ? @origin_address.address_string : "", placeholder: "Origin Address", class: "form-control input-md" %>
             <% end %>
-            <%= hidden_field_tag "origin_address[latitude]", @origin_latitude, class: "form-control input-md" %>
-            <%= hidden_field_tag "origin_address[longitude]", @origin_longitude, class: "form-control input-md" %>
+            <%= render 'addresses/hidden_origin_form' %>
           </div>
         </div>
 
@@ -21,10 +20,9 @@
             <% if @parcel_id %>
               <%= text_field_tag 'destination_address[address_string]', nil, placeholder: @destination_address_string, class: "form-control input-md" %>
             <% else %>
-              <%= text_field_tag 'destination_address[address_string]', @destination_address_string, placeholder: "Destination Address", class: "form-control input-md" %>
+              <%= text_field_tag 'destination_address[address_string]', @destination_address ? @destination_address.address_string : "", placeholder: "Destination Address", class: "form-control input-md" %>
             <% end %>
-            <%= hidden_field_tag "destination_address[latitude]", @destination_latitude, class: "form-control input-md" %>
-            <%= hidden_field_tag "destination_address[longitude]", @destination_longitude, class: "form-control input-md" %>
+            <%= render 'addresses/hidden_destination_form' %>
           </div>
         </div>
         <div class="form-group">
@@ -32,7 +30,7 @@
             <% if @parcel_id %>
               <%= text_field_tag "parcel[pickup_by]", nil, class: "form-control input-md", placeholder: @pickup_by %>
             <% else %>
-              <%= text_field_tag "parcel[pickup_by]", @pickup_by, class: "form-control input-md", :id => "datetimepicker1", placeholder: "Pickup By Date" %>
+              <%= text_field_tag "parcel[pickup_by]", @parcel ? @parcel.pickup_by : "", class: "form-control input-md", :id => "datetimepicker1", placeholder: "Pickup By Date" %>
             <% end %>
           </div>
         </div>
@@ -41,28 +39,29 @@
             <% if @parcel_id %>
               <%= text_field_tag "parcel[deliver_by]", nil, class: "form-control input-md", placeholder: @deliver_by %>
             <% else %>
-              <%= text_field_tag "parcel[deliver_by]", @deliver_by, class: "form-control input-md", :id => "datetimepicker2", placeholder: "Deliver By Date" %>
+              <%= text_field_tag "parcel[deliver_by]", @parcel ? @parcel.deliver_by : "", class: "form-control input-md", :id => "datetimepicker2", placeholder: "Deliver By Date" %>
             <% end %>
           </div>
         </div>
         <div class="form-group">
-          <div><label id="weight">Weight: <span id="grab"></span></label></div>
+          <div><label id="weight">Weight: <span id="slider1"></span></label></div>
           <div class="col-md-8">
             <% if @parcel_id %>
               <%= text_field_tag "parcel[weight]", nil, class: "form-control input-md", placeholder: @weight %>
             <% else %>
-              <%= range_field_tag "parcel[weight]", @weight ? @weight : "0", class: "form-control input-md", :placeholder => "Weight (Lbs)", min: 1, max: 300 %>
+              <%= range_field_tag "parcel[weight]", @parcel ? @parcel.weight : "0", class: "form-control input-md", :placeholder => "Weight (Lbs)", min: 1, max: 300 %>
             <% end %>
           </div>
         </div>
         <div class="form-group">
-          <div><label id="volume">Volume: <span id="grab1"></span></label></div>
+          <div><label id="volume">Volume: <span id="slider2"></span></label></div>
           <div class="col-md-8">
             <% if @parcel_id %>
               <%= text_field_tag "parcel[volume]", nil, class: "form-control input-md", placeholder: @volume %>
             <% else %>
-              <%= range_field_tag "parcel[volume]", @volume ? @volume : "0", class: "form-control input-md", :placeholder => "Volume (Sq Ft)", min: 1, max: 300 %>
+              <%= range_field_tag "parcel[volume]", @parcel ? @parcel.volume : "0", class: "form-control input-md", :placeholder => "Volume (Sq Ft)", min: 1, max: 300 %>
             <% end %>
+            <%= hidden_field_tag "parcel[trip_id]", nil, id: "trip-id" %>
           </div>
         </div>
         <%= button_to "Find Matching Trips", "", class: "btn btn-primary search peter-river" %>
@@ -93,12 +92,12 @@
             <div class="descr center">
                 <p> <span class="strong"> From:</span> <%= trip.origin_address.city_state %> <br> <span class="strong">To:</span> <%= trip.destination_address.city_state %></p>
             </div>
-           
+
             <div class="coupon light-grey">
               <% if @parcel_id %>
               <p><%= link_to "Book", book_parcel_trip_path(@parcel_id, trip.id), class: "btn btn-primary peter-river" %></p>
             <% else %>
-              <p><%= link_to "Book", new_parcel_path(trip_id: trip.id), class: "btn btn-primary peter-river" %></p>
+              <%= button_to "Book", "#", form: {method: "get", class: "book-trip-form"}, class: "btn btn-primary peter-river book-trip", data: {tripid: trip.id } %>
             <% end %>
             </div>
           </div>
@@ -109,36 +108,54 @@
 </div>
 
 <script>
-$(function () {
+$(function() {
 
-  function showWeight() {
-    var weightValue = $('#parcel_weight').val();
-    $('#grab').html(weightValue);
-  };
-
-  function showVolume() {
-    var parcelValue = $('#parcel_volume').val();
-    $('#grab1').html(parcelValue);
-  };
-
-  showWeight();
-  showVolume();
-
-  $('#parcel_weight').change(function(){
-    showWeight();
+  $('.book-trip-form').on('submit', function(e){
+    e.preventDefault();
+    debugger
+    var tripId = $(e.target).find('.book-trip').data("tripid")
+    $('.trip-search-form').attr('action', "<%= new_parcel_path %>");
+    $('#trip-id').val(tripId);
+    $('.trip-search-form').submit();
   });
 
-  $('#parcel_volume').change(function(){
-    showVolume();
+  function updateWeight() {
+    var weightValue = $('#parcel_weight').val();
+    $('#slider1').html(weightValue);
+  };
+
+  function updateVolume() {
+    var parcelValue = $('#parcel_volume').val();
+    $('#slider2').html(parcelValue);
+  };
+
+  updateWeight();
+  updateVolume();
+
+  $('#parcel_weight').on('input', function(e){
+    updateWeight();
+  });
+
+  $('#parcel_volume').on('input', function(e){
+    updateVolume();
   });
 
   $('#Container1').mixItUp({
     animation: {
-    duration: 440,
-    effects: 'fade stagger(70ms) rotateY(-14deg) translateZ(280px)',
-    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-  }
+      duration: 440,
+      effects: 'fade stagger(70ms) rotateY(-14deg) translateZ(280px)',
+      easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+    }
   });
+
+  <% if @parcel %>
+    <% if @parcel.pickup_by %>
+      $('#datetimepicker1').data("DateTimePicker").date(new Date('<%= @parcel.pickup_by.strftime('%m/%d/%Y') %>'));
+    <% end %>
+    <% if @parcel.deliver_by %>
+      $('#datetimepicker2').data("DateTimePicker").date(new Date('<%= @parcel.deliver_by.strftime('%m/%d/%Y') %>'));
+    <% end %>
+  <% end %>
 });
 </script>
 <script src="http://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js"></script>

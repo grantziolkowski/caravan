@@ -41,4 +41,17 @@
     <div class="form-group">
      <%= text_field_tag 'parcel[delivery_notes]', @parcel ? @parcel.delivery_notes : "", placeholder: "Delivery Notes" %>
    </div>
-   <%= hidden_field_tag 'parcel[trip_id]', @trip_id %>
+   <%= hidden_field_tag 'parcel[trip_id]', @parcel ? @parcel.trip_id : "" %>
+
+<script>
+$(function() {
+  <% if @parcel %>
+    <% if @parcel.pickup_by %>
+      $('#datetimepicker1').data("DateTimePicker").date(new Date('<%= @parcel.pickup_by.strftime('%m/%d/%Y') %>'));
+    <% end %>
+    <% if @parcel.deliver_by %>
+      $('#datetimepicker2').data("DateTimePicker").date(new Date('<%= @parcel.deliver_by.strftime('%m/%d/%Y') %>'));
+    <% end %>
+  <% end %>
+});
+</script>
