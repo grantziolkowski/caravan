@@ -13,6 +13,8 @@ class Parcel < ActiveRecord::Base
 
   validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
 
+  DATE_FORMAT = '%m/%d/%Y'
+
 
   def self.build(origin_address_params, destination_address_params, parcel_params)
     origin_address = Address.new(origin_address_params)
@@ -26,7 +28,11 @@ class Parcel < ActiveRecord::Base
       return destination_address
     end
 
+    parcel_params[:pickup_by] = Date.strptime(parcel_params[:pickup_by], DATE_FORMAT)
+    parcel_params[:deliver_by] = Date.strptime(parcel_params[:deliver_by], DATE_FORMAT)
+
     parcel = Parcel.new(parcel_params)
+
     parcel.origin_address = origin_address
     parcel.destination_address = destination_address
     parcel.sender = origin_address.user
@@ -41,12 +47,12 @@ class Parcel < ActiveRecord::Base
   end
 
   def self.new_from_params(params)
-    date_format = '%m/%d/%Y'
     parcel = Parcel.new
-    parcel.pickup_by = Date.strptime(params[:pickup_by], date_format) if params[:pickup_by]
-    parcel.deliver_by = Date.strptime(params[:deliver_by], date_format) if params[:deliver_by]
+    parcel.pickup_by = Date.strptime(params[:pickup_by], DATE_FORMAT) if !params[:pickup_by].empty?
+    parcel.deliver_by = Date.strptime(params[:deliver_by], DATE_FORMAT) if !params[:deliver_by].empty?
     parcel.weight = params[:weight] if params[:weight]
     parcel.volume = params[:volume] if params[:volume]
+    parcel.trip_id = params[:trip_id] if params[:trip_id]
     return parcel
   end
 end

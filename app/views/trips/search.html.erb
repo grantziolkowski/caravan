@@ -139,8 +139,14 @@ $(function () {
     }
   });
 
-  $('#datetimepicker1').data("DateTimePicker").date(new Date('<%= @parcel.pickup_by.strftime('%m/%d/%Y') %>'));
-  $('#datetimepicker2').data("DateTimePicker").date(new Date('<%= @parcel.deliver_by.strftime('%m/%d/%Y') %>'));
+  <% if @parcel %>
+    <% if @parcel.pickup_by %>
+      $('#datetimepicker1').data("DateTimePicker").date(new Date('<%= @parcel.pickup_by.strftime('%m/%d/%Y') %>'));
+    <% end %>
+    <% if @parcel.deliver_by %>
+      $('#datetimepicker2').data("DateTimePicker").date(new Date('<%= @parcel.deliver_by.strftime('%m/%d/%Y') %>'));
+    <% end %>
+  <% end %>
 });
 </script>
 <script src="http://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js"></script>
