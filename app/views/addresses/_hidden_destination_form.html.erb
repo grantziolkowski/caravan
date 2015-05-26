@@ -1,0 +1,7 @@
+<%= hidden_field_tag 'destination_address[street_address]', @destination_address ? @destination_address.street_address : "" %>
+<%= hidden_field_tag 'destination_address[secondary_address]', @destination_address ? @destination_address.secondary_address : "" %>
+<%= hidden_field_tag 'destination_address[city]', @destination_address ? @destination_address.city : "" %>
+<%= hidden_field_tag 'destination_address[state]', @destination_address ? @destination_address.state : "" %>
+<%= hidden_field_tag 'destination_address[zip_code]', @destination_address ? @destination_address.zip_code : "" %>
+<%= hidden_field_tag 'destination_address[latitude]',@destination_address ? @destination_address.latitude : "" %>
+<%= hidden_field_tag 'destination_address[longitude]', @destination_address ? @destination_address.longitude : "" %>
