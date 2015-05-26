@@ -139,6 +139,9 @@ $(function () {
       easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
     }
   });
+
+  $('#datetimepicker1').data("DateTimePicker").date(new Date('<%= @parcel.pickup_by.strftime('%m/%d/%Y') %>'));
+  $('#datetimepicker2').data("DateTimePicker").date(new Date('<%= @parcel.deliver_by.strftime('%m/%d/%Y') %>'));
 });
 </script>
 <script src="http://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js"></script>

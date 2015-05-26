@@ -77,10 +77,6 @@ class Trip < ActiveRecord::Base
 
   private
 
-  def self.date_from_euro_string str
-   return DateTime.strptime(str, "%d/%m/%Y %H:%M:%S") if str
-  end
-
   def self.trips_near(latitude, longitude, source)
     if latitude && longitude
       addresses_nearby = Address.near([latitude, longitude], SEARCH_RADIUS_MILES)

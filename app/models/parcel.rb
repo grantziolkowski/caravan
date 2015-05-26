@@ -39,4 +39,14 @@ class Parcel < ActiveRecord::Base
       return parcel
     end
   end
+
+  def self.new_from_params(params)
+    date_format = '%m/%d/%Y'
+    parcel = Parcel.new
+    parcel.pickup_by = Date.strptime(params[:pickup_by], date_format) if params[:pickup_by]
+    parcel.deliver_by = Date.strptime(params[:deliver_by], date_format) if params[:deliver_by]
+    parcel.weight = params[:weight] if params[:weight]
+    parcel.volume = params[:volume] if params[:volume]
+    return parcel
+  end
 end
