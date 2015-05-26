@@ -27,14 +27,11 @@ Rails.application.routes.draw do
     end
   end
 
-  get '/trips/search', to: 'trips#search'
-
   resources :trips do
+    get 'search', :on => :collection
     resources :parcels, only: [:index]
     resources :reviews, only: [:new, :create, :destroy]
   end
 
-
  root to: 'application#index'
-
 end
