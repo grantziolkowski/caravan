@@ -41,7 +41,7 @@
     <div class="form-group">
      <%= text_field_tag 'parcel[delivery_notes]', @parcel ? @parcel.delivery_notes : "", placeholder: "Delivery Notes" %>
    </div>
-   <%= text_field_tag 'parcel[trip_id]', @parcel ? @parcel.trip_id : "" %>
+   <%= hidden_field_tag 'parcel[trip_id]', @parcel ? @parcel.trip_id : "" %>
 
 <script>
 $(function() {
