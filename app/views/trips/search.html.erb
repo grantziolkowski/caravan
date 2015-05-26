@@ -108,27 +108,36 @@
 </div>
 
 <script>
-$(function () {
+$(function() {
 
-  function showWeight() {
-    var weightValue = $('#parcel_weight').val();
-    $('#grab').html(weightValue);
-  };
-
-  function showVolume() {
-    var parcelValue = $('#parcel_volume').val();
-    $('#grab1').html(parcelValue);
-  };
-
-  showWeight();
-  showVolume();
-
-  $('#parcel_weight').change(function(){
-    showWeight();
+  $('.book-trip-form').on('submit', function(e){
+    e.preventDefault();
+    debugger
+    var tripId = $(e.target).find('.book-trip').data("tripid")
+    $('.trip-search-form').attr('action', "<%= new_parcel_path %>");
+    $('#trip-id').val(tripId);
+    $('.trip-search-form').submit();
   });
 
-  $('#parcel_volume').change(function(){
-    showVolume();
+  function updateWeight() {
+    var weightValue = $('#parcel_weight').val();
+    $('#slider1').html(weightValue);
+  };
+
+  function updateVolume() {
+    var parcelValue = $('#parcel_volume').val();
+    $('#slider2').html(parcelValue);
+  };
+
+  updateWeight();
+  updateVolume();
+
+  $('#parcel_weight').on('input', function(e){
+    updateWeight();
+  });
+
+  $('#parcel_volume').on('input', function(e){
+    updateVolume();
   });
 
   $('#Container1').mixItUp({
