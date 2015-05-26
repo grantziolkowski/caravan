@@ -7,18 +7,15 @@ Rails.application.routes.draw do
   get 'signup' => 'users#new'
 
   resources :users, path: 'profiles', only: [:new, :create, :show] do
-    resources :reviews
+    resources :reviews, only: [:new, :create, :destroy]
   end
 
   get 'profile', to: 'users#current'
   get 'profile/history', to: 'users#history'
 
-  get '/inbox', to: 'messages#index'
   post '/compose', to: 'messages#new'
 
   resources :messages, only: [:new, :create, :index]
-
-  resources :reviews
 
   resources :parcels do
     resources :reviews, only: [:new, :create, :destroy]
