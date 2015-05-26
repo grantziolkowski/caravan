@@ -23,24 +23,9 @@ class TripsController < ApplicationController
       @weight = params[:parcel][:weight] = parcel.weight.to_s
       @volume = params[:parcel][:volume] = parcel.volume.to_s
     else
-      if params[:origin_address]
-        @origin_address_string = params[:origin_address][:address_string]
-        @origin_latitude = params[:origin_address][:latitude]
-        @origin_longitude = params[:origin_address][:longitude]
-      end
-
-      if params[:destination_address]
-        @destination_address_string = params[:destination_address][:address_string]
-        @destination_latitude = params[:destination_address][:latitude]
-        @destination_longitude = params[:destination_address][:longitude]
-      end
-
-      if params[:parcel]
-        @pickup_by = params[:parcel][:pickup_by]
-        @deliver_by = params[:parcel][:deliver_by]
-        @weight = params[:parcel][:weight]
-        @volume = params[:parcel][:volume]
-      end
+      @origin_address = Address.new_from_params(params[:origin_address]) if params[:origin_address]
+      @destination_address = Address.new_from_params(params[:destination_address]) if params[:destination_address]
+      @parcel = Parcel.new_from_params(params[:parcel]) if params[:parcel]
     end
 
     @trips = Trip.search(params)
