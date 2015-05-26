@@ -29,7 +29,11 @@ class Trip < ActiveRecord::Base
       if trips_near_destination.count == 0
         return trips_near_destination
       else
-        trips_found = trips_found.merge(trips_near_destination)
+        if trips_found.empty?
+          trips_found = trips_near_destination
+        else
+          trips_found = trips_found.merge(trips_near_destination)
+        end
       end
     end
 
