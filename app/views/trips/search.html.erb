@@ -44,16 +44,6 @@
           </div>
         </div>
         <div class="form-group">
-          <div><label id="weight">Weight: <span id="slider1"></span></label></div>
-          <div class="col-md-8">
-            <% if @parcel_id %>
-              <%= text_field_tag "parcel[weight]", nil, class: "form-control input-md", placeholder: @weight %>
-            <% else %>
-              <%= range_field_tag "parcel[weight]", @parcel ? @parcel.weight : "0", class: "form-control input-md", :placeholder => "Weight (Lbs)", min: 1, max: 300 %>
-            <% end %>
-          </div>
-        </div>
-        <div class="form-group">
           <div><label id="volume">Volume: <span id="slider2"></span></label></div>
           <div class="col-md-8">
             <% if @parcel_id %>
@@ -64,6 +54,17 @@
             <%= hidden_field_tag "parcel[trip_id]", nil, id: "trip-id" %>
           </div>
         </div>
+        <div class="form-group">
+          <div><label id="weight">Weight: <span id="slider1"></span></label></div>
+          <div class="col-md-8">
+            <% if @parcel_id %>
+              <%= text_field_tag "parcel[weight]", nil, class: "form-control input-md", placeholder: @weight %>
+            <% else %>
+              <%= range_field_tag "parcel[weight]", @parcel ? @parcel.weight : "0", class: "form-control input-md", :placeholder => "Weight (Lbs)", min: 1, max: 300 %>
+            <% end %>
+          </div>
+        </div>
+
         <%= button_to "Find Matching Trips", "", class: "btn btn-primary search peter-river trip-search-btn" %>
       </fieldset>
     </form>
