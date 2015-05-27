@@ -112,7 +112,6 @@ $(function() {
 
   $('.book-trip-form').on('submit', function(e){
     e.preventDefault();
-    debugger
     var tripId = $(e.target).find('.book-trip').data("tripid")
     $('.trip-search-form').attr('action', "<%= new_parcel_path %>");
     $('#trip-id').val(tripId);
