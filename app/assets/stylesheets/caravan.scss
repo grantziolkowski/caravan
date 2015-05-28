@@ -333,6 +333,7 @@ section {
 input.trip-search-btn {
   font-size: 14px;
   height: 40px;
+  margin-bottom: 15px;
 }
 
 #ex1Slider .slider-selection {
@@ -345,6 +346,26 @@ input.trip-search-btn {
 }
 
 #volume {
+  margin: 15px;
+  font-size: 12px;
+}
+
+#origin-label {
+  margin: 15px;
+  font-size: 12px;
+}
+
+#destination-label {
+  margin: 15px;
+  font-size: 12px;
+}
+
+#pickup-label {
+  margin: 15px;
+  font-size: 12px;
+}
+
+#deliver-label {
   margin: 15px;
   font-size: 12px;
 }
@@ -403,7 +424,7 @@ input.trip-search-btn {
   border-radius: 4px;
 }
 
-#parcel_weight {
+#parcel_volume {
   margin-bottom: -30px;
 }
 
