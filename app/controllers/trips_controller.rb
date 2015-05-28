@@ -103,7 +103,7 @@ class TripsController < ApplicationController
 
   private
 
-  def notify_sender
+  def notify_sender(parcel)
     parcel.sender.notify("Your parcel is booked: Details", "Your parcel ID\##{parcel.id} will be picked up by #{format_date(parcel.pickup_by)} and delivered by #{format_date(parcel.deliver_by)} by driver #{parcel.trip.driver.username}.")
   end
 
