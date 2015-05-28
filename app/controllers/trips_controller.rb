@@ -3,32 +3,17 @@ class TripsController < ApplicationController
 
   def search
     if params[:parcel_id]
-      parcel = Parcel.find(params[:parcel_id])
-      origin_address = parcel.origin_address
-      destination_address = parcel.destination_address
-      params[:origin_address] = {}
-      params[:destination_address] = {}
-      params[:parcel] = {}
-      @parcel_id = parcel.id
-      @origin_address_string = params[:origin_address][:address_string] = origin_address.address_string
-      @origin_latitude = params[:origin_address][:latitude] = origin_address.latitude.to_s
-      @origin_longitude = params[:origin_address][:longitude] = origin_address.longitude.to_s
-
-      @destination_address_string = params[:destination_address][:address_string] = destination_address.address_string
-      @destination_latitude = params[:destination_address][:latitude] = destination_address.latitude.to_s
-      @destination_longitude = params[:destination_address][:longitude] = destination_address.longitude.to_s
-
-      @pickup_by = params[:parcel][:pickup_by] = parcel.pickup_by.to_formatted_s(:app)
-      @deliver_by = params[:parcel][:deliver_by] = parcel.deliver_by.to_formatted_s(:app)
-      @weight = params[:parcel][:weight] = parcel.weight.to_s
-      @volume = params[:parcel][:volume] = parcel.volume.to_s
+      @parcel = Parcel.find(params[:parcel_id])
+      @parcel_matching = true if @parcel && @parcel.valid?
+      @origin = @parcel.origin_address
+      @destination = @parcel.destination_address
+      @trips = Trip.search(@origin, @destination, @parcel)
     else
       @origin_address = Address.new_from_params(params[:origin_address]) if params[:origin_address]
       @destination_address = Address.new_from_params(params[:destination_address]) if params[:destination_address]
       @parcel = Parcel.new_from_params(params[:parcel]) if params[:parcel]
+      @trips = Trip.search(@origin_address, @destination_address, @parcel)
     end
-
-    @trips = Trip.search(params)
   end
 
   def new
@@ -103,7 +88,7 @@ class TripsController < ApplicationController
 
   private
 
-  def notify_sender
+  def notify_sender(parcel)
     parcel.sender.notify("Your parcel is booked: Details", "Your parcel ID\##{parcel.id} will be picked up by #{format_date(parcel.pickup_by)} and delivered by #{format_date(parcel.deliver_by)} by driver #{parcel.trip.driver.username}.")
   end
 

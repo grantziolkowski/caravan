@@ -12,21 +12,21 @@ class Trip < ActiveRecord::Base
 
   SEARCH_RADIUS_MILES = 15
 
-  def self.search(params)
+  def self.search(origin, destination, parcel)
     trips_found = []
 
-    if params[:origin_address] && !params[:origin_address][:latitude].empty? && !params[:origin_address][:longitude].empty?
-      trips_near_origin = trips_near(params[:origin_address][:latitude], params[:origin_address][:longitude], :origin_address_id)
-      if trips_near_origin.count == 0
+    if origin && origin.latitude && origin.longitude
+      trips_near_origin = trips_near(origin.latitude, origin.longitude, :origin_address_id)
+      if trips_near_origin.empty?
         return trips_near_origin
       else
         trips_found = trips_near_origin
       end
     end
 
-    if params[:destination_address] && !params[:destination_address][:latitude].empty? && !params[:destination_address][:longitude].empty?
-      trips_near_destination = trips_near(params[:destination_address][:latitude], params[:destination_address][:longitude], :destination_address_id)
-      if trips_near_destination.count == 0
+    if destination && destination.latitude && destination.longitude
+      trips_near_destination = trips_near(destination.latitude, destination.longitude, :destination_address_id)
+      if trips_near_destination.empty?
         return trips_near_destination
       else
         if trips_found.empty?
@@ -37,11 +37,11 @@ class Trip < ActiveRecord::Base
       end
     end
 
-    if params[:parcel]
-      trips_found = trips_found.where("leaving_at > ?", params[:parcel][:pickup_by]) if !params[:parcel][:pickup_by].empty?
-      trips_found = trips_found.where("arriving_at < ?", params[:parcel][:deliver_by]) if !params[:parcel][:deliver_by].empty?
-      trips_found = trips_found.where("max_weight > ?", params[:parcel][:weight]) if !params[:parcel][:weight].empty?
-      trips_found = trips_found.where("available_volume > ?", params[:parcel][:volume]) if !params[:parcel][:volume].empty?
+    if parcel
+      trips_found = trips_found.where("leaving_at > ?", parcel.pickup_by.to_formatted_s(:app)) if parcel.pickup_by
+      trips_found = trips_found.where("arriving_at < ?", parcel.deliver_by.to_formatted_s(:app)) if parcel.deliver_by
+      trips_found = trips_found.where("max_weight > ?", parcel.weight) if parcel.weight
+      trips_found = trips_found.where("available_volume > ?", parcel.volume) if parcel.volume
     end
 
     trips_found
