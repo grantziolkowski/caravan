@@ -6,8 +6,8 @@
         <legend>Parcel Details</legend>
         <div class="form-group">
           <div class="col-md-8">
-            <% if @parcel_id %>
-              <%= text_field_tag 'origin_address[address_string]', nil, class: "form-control input-md", placeholder: @origin_address_string %>
+            <% if @parcel_matching %>
+              <%= text_field_tag 'origin_address[address_string]', nil, class: "form-control input-md", placeholder: @origin.address_string %>
             <% else %>
               <%= text_field_tag 'origin_address[address_string]', @origin_address ? @origin_address.address_string : "", placeholder: "Origin Address", class: "form-control input-md" %>
             <% end %>
@@ -17,8 +17,8 @@
 
         <div class="form-group">
           <div class="col-md-8">
-            <% if @parcel_id %>
-              <%= text_field_tag 'destination_address[address_string]', nil, placeholder: @destination_address_string, class: "form-control input-md" %>
+            <% if @parcel_matching %>
+              <%= text_field_tag 'destination_address[address_string]', nil, placeholder: @destination.address_string, class: "form-control input-md" %>
             <% else %>
               <%= text_field_tag 'destination_address[address_string]', @destination_address ? @destination_address.address_string : "", placeholder: "Destination Address", class: "form-control input-md" %>
             <% end %>
@@ -27,8 +27,8 @@
         </div>
         <div class="form-group">
           <div class="col-md-8">
-            <% if @parcel_id %>
-              <%= text_field_tag "parcel[pickup_by]", nil, class: "form-control input-md", placeholder: @pickup_by %>
+            <% if @parcel_matching %>
+              <%= text_field_tag "parcel[pickup_by]", nil, class: "form-control input-md", placeholder: @parcel.pickup_by.to_formatted_s(:app) %>
             <% else %>
               <%= text_field_tag "parcel[pickup_by]", @parcel ? @parcel.pickup_by : "", class: "form-control input-md", :id => "datetimepicker1", placeholder: "Pickup By Date" %>
             <% end %>
@@ -36,8 +36,8 @@
         </div>
         <div class="form-group">
           <div class="col-md-8">
-            <% if @parcel_id %>
-              <%= text_field_tag "parcel[deliver_by]", nil, class: "form-control input-md", placeholder: @deliver_by %>
+            <% if @parcel_matching %>
+              <%= text_field_tag "parcel[deliver_by]", nil, class: "form-control input-md", placeholder: @parcel.deliver_by.to_formatted_s(:app) %>
             <% else %>
               <%= text_field_tag "parcel[deliver_by]", @parcel ? @parcel.deliver_by : "", class: "form-control input-md", :id => "datetimepicker2", placeholder: "Deliver By Date" %>
             <% end %>
@@ -46,8 +46,8 @@
         <div class="form-group">
           <div><label id="volume">Volume: <span id="slider2"></span></label></div>
           <div class="col-md-8">
-            <% if @parcel_id %>
-              <%= text_field_tag "parcel[volume]", nil, class: "form-control input-md", placeholder: @volume %>
+            <% if @parcel_matching %>
+              <%= text_field_tag "parcel[volume]", nil, class: "form-control input-md", placeholder: @parcel.volume %>
             <% else %>
               <%= range_field_tag "parcel[volume]", @parcel ? @parcel.volume : "0", class: "form-control input-md", :placeholder => "Volume (Sq Ft)", min: 1, max: 300 %>
             <% end %>
@@ -57,8 +57,8 @@
         <div class="form-group">
           <div><label id="weight">Weight: <span id="slider1"></span></label></div>
           <div class="col-md-8">
-            <% if @parcel_id %>
-              <%= text_field_tag "parcel[weight]", nil, class: "form-control input-md", placeholder: @weight %>
+            <% if @parcel_matching %>
+              <%= text_field_tag "parcel[weight]", nil, class: "form-control input-md", placeholder: @parcel.weight %>
             <% else %>
               <%= range_field_tag "parcel[weight]", @parcel ? @parcel.weight : "0", class: "form-control input-md", :placeholder => "Weight (Lbs)", min: 1, max: 300 %>
             <% end %>
@@ -95,8 +95,8 @@
             </div>
 
             <div class="coupon light-grey">
-              <% if @parcel_id %>
-              <p><%= link_to "Book", book_parcel_trip_path(@parcel_id, trip.id), class: "btn btn-primary peter-river" %></p>
+              <% if @parcel_matching %>
+              <p><%= link_to "Book", book_parcel_trip_path(@parcel.id, trip.id), class: "btn btn-primary peter-river" %></p>
             <% else %>
               <%= button_to "Book", "#", form: {method: "get", class: "book-trip-form"}, class: "btn btn-primary peter-river book-trip", data: {tripid: trip.id } %>
             <% end %>
