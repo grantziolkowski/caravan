@@ -6,5 +6,4 @@
 * [Kenny Geiler]()
 * [Vinh Bui](https://github.com/bicyclethief)
 
-## User Stories:
-
+Development Span: May 7, 2015 - May 13, 2015.
