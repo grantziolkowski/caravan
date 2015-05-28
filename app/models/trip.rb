@@ -1,4 +1,5 @@
 class Trip < ActiveRecord::Base
+  include DateHelpers
   belongs_to :driver, class_name: "User"
   has_many :parcels
   has_many :reviews
@@ -77,6 +78,10 @@ class Trip < ActiveRecord::Base
     matching_trips = Trip.joins(:destination_address).where('addresses.city = ? and addresses.state = ?', parcel.destination_address.city, parcel.destination_address.state).where('arriving_at < ? and leaving_at > ?', parcel.deliver_by, parcel.pickup_by)
     matching_trips = matching_trips.where('max_weight > ?', parcel.weight) if parcel.weight
     matching_trips = matching_trips.where('available_volume > ?', parcel.volume) if parcel.volume
+  end
+
+  def notify_driver(parcel)
+    driver.notify("Your trip has a confirmed parcel: Details", "You have accepted to ship parcel ID\##{parcel.id} for #{parcel.sender.username} by #{format_date(parcel.pickup_by)} and deliver by #{format_date(parcel.deliver_by)}.")
   end
 
   private
