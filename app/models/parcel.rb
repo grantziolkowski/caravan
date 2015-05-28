@@ -1,4 +1,5 @@
 class Parcel < ActiveRecord::Base
+  include DateHelpers
   has_many :reviews
   belongs_to :sender, class_name: "User"
   belongs_to :trip
@@ -54,5 +55,9 @@ class Parcel < ActiveRecord::Base
     parcel.volume = params[:volume] if params[:volume]
     parcel.trip_id = params[:trip_id] if params[:trip_id]
     return parcel
+  end
+
+  def notify_sender
+    sender.notify("Your parcel is booked: Details", "Your parcel ID\##{id} will be picked up by #{format_date(pickup_by)} and delivered by #{format_date(deliver_by)} by driver #{trip.driver.username}.")
   end
 end
