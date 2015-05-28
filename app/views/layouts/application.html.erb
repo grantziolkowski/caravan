@@ -8,7 +8,6 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
   <!-- Navigation -->
   <nav class="navbar navbar-custom navbar-top top-nav-collapse" role="navigation">
     <div class="container">
@@ -27,14 +26,13 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><%= current_user.username.capitalize %> <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="/profile">My profile</a></li>
+              <li><%= link_to "My Profile", profile_path %></li>
               <li class="divider"></li>
-              <li><a href="/trips/new">New Trip</a></li>
-              <li><a href="/parcels/new">New Parcel</a></li>
-              <li><a href="/trips/search"> New Search</a></li>
-
+              <li><%= link_to "New Trip", new_trip_path %></li>
+              <li><%= link_to "New Parcel", new_parcel_path %></li>
+              <li><%= link_to "New Search", search_trips_path %></li>
               <li class="divider"></li>
-              <li><a href="<%= signout_path %>">Sign out</a></li>
+              <li><%= link_to "Sign Out",signout_path %></li>
             </ul>
           </li>
           <% else %>

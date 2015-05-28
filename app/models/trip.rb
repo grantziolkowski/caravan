@@ -38,7 +38,7 @@ class Trip < ActiveRecord::Base
       end
     end
 
-    if parcel
+    if parcel && !trips_found.empty?
       trips_found = trips_found.where("leaving_at > ?", parcel.pickup_by.to_formatted_s(:app)) if parcel.pickup_by
       trips_found = trips_found.where("arriving_at < ?", parcel.deliver_by.to_formatted_s(:app)) if parcel.deliver_by
       trips_found = trips_found.where("max_weight > ?", parcel.weight) if parcel.weight
